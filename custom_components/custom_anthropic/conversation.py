@@ -54,8 +54,10 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up Custom Anthropic conversation entities."""
-    agent = CustomAnthropicConversationEntity(config_entry)
+    agent = CustomAnthropicConversationEntity(hass, config_entry)
     async_add_entities([agent])
+    
+    conversation.async_set_agent(hass, config_entry, agent)
 
 def _format_tool(
     tool: llm.Tool, custom_serializer: Callable[[Any], Any] | None
@@ -96,8 +98,9 @@ class CustomAnthropicConversationEntity(
     _attr_has_entity_name = True
     _attr_name = None
 
-    def __init__(self, entry: ConfigEntry) -> None:
+    def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
         """Initialize the agent."""
+        self.hass = hass
         self.entry = entry
         self.history: dict[str, list[MessageParam]] = {}
         self._attr_unique_id = entry.entry_id
