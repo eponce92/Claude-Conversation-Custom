@@ -15,9 +15,10 @@ from .const import DOMAIN, LOGGER
 PLATFORMS = (Platform.CONVERSATION,)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
-type AnthropicConfigEntry = ConfigEntry[anthropic.AsyncClient]
+# Remove the type alias
+# type AnthropicConfigEntry = ConfigEntry[anthropic.AsyncClient]
 
-async def async_setup_entry(hass: HomeAssistant, entry: AnthropicConfigEntry) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Custom Anthropic from a config entry."""
     client = anthropic.AsyncAnthropic(api_key=entry.data[CONF_API_KEY])
     try:

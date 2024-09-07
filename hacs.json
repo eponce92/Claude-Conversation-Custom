@@ -1,5 +1,7 @@
 {
     "name": "Custom Anthropic Conversation",
     "render_readme": true,
-    "domain": "custom_anthropic"
-  }
+    "domain": "custom_anthropic",
+    "homeassistant": "2023.3.0",
+    "version": "0.2.0"
+}
