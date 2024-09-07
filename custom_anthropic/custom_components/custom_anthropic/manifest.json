@@ -1,0 +1,13 @@
+{
+  "domain": "custom_anthropic",
+  "name": "Custom Anthropic Conversation",
+  "after_dependencies": ["assist_pipeline", "intent"],
+  "codeowners": ["@YourGitHubUsername"],
+  "config_flow": true,
+  "dependencies": ["conversation"],
+  "documentation": "https://github.com/eponce92/Claude-Custom-Integration---Home-Assistant",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "requirements": ["anthropic==0.31.2"],
+  "version": "0.1.0"
+}

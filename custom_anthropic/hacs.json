@@ -1,0 +1,5 @@
+{
+    "name": "Custom Anthropic Conversation",
+    "render_readme": true,
+    "domain": "custom_anthropic"
+  }
