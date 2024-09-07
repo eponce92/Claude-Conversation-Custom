@@ -140,6 +140,11 @@ class CustomAnthropicConversationEntity(
         """Return a list of supported languages."""
         return MATCH_ALL
 
+    @property
+    def agent_id(self) -> str:
+        """Return the agent ID."""
+        return f"{DOMAIN}_{self.entry.entry_id}"
+
     async def async_process(
         self, user_input: conversation.ConversationInput
     ) -> conversation.ConversationResult:
@@ -331,3 +336,10 @@ class CustomAnthropicConversationEntity(
     ) -> None:
         """Handle options update."""
         await hass.config_entries.async_reload(entry.entry_id)
+
+    async def async_get_agent_info(self) -> conversation.AgentInfo:
+        """Get information about the agent."""
+        return conversation.AgentInfo(
+            name="Custom Claude",
+            id=self.agent_id,
+        )
