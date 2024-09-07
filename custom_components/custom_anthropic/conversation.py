@@ -248,7 +248,7 @@ class CustomAnthropicConversationEntity(
             {"system": prompt, "messages": messages},
         )
 
-        client = self.entry.runtime_data
+        client = self.hass.data[DOMAIN][self.entry.entry_id]
 
         for _iteration in range(MAX_TOOL_ITERATIONS):
             try:
