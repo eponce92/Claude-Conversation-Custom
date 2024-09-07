@@ -15,9 +15,6 @@ from .const import DOMAIN, LOGGER
 PLATFORMS = (Platform.CONVERSATION,)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
-# Remove the type alias
-# type AnthropicConfigEntry = ConfigEntry[anthropic.AsyncClient]
-
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Custom Anthropic from a config entry."""
     client = anthropic.AsyncAnthropic(api_key=entry.data[CONF_API_KEY])
@@ -34,7 +31,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     except anthropic.AnthropicError as err:
         raise ConfigEntryNotReady(err) from err
 
-    entry.runtime_data = client
+    hass.data.setdefault(DOMAIN, {})[entry.entry_id] = client
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
@@ -42,4 +39,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload Custom Anthropic."""
-    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    if unload_ok := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
+        hass.data[DOMAIN].pop(entry.entry_id)
+    return unload_ok

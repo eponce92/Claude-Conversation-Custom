@@ -32,7 +32,6 @@ from homeassistant.helpers import device_registry as dr, intent, llm, template
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util import ulid
 
-from . import AnthropicConfigEntry
 from .const import (
     CONF_CHAT_MODEL,
     CONF_MAX_TOKENS,
@@ -51,7 +50,7 @@ MAX_TOOL_ITERATIONS = 10
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    config_entry: AnthropicConfigEntry,
+    config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up Custom Anthropic conversation entities."""
@@ -97,7 +96,7 @@ class CustomAnthropicConversationEntity(
     _attr_has_entity_name = True
     _attr_name = None
 
-    def __init__(self, entry: AnthropicConfigEntry) -> None:
+    def __init__(self, entry: ConfigEntry) -> None:
         """Initialize the agent."""
         self.entry = entry
         self.history: dict[str, list[MessageParam]] = {}
